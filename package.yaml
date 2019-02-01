@@ -9,15 +9,14 @@ dependencies:
 library:
   source-dirs: src
 
-executable:
-  main: Main.hs
-  source-dirs: app
-  dependencies:
-  - mini-tt
-
-tests:
-  test:
+executables:
+  agdacore:
     main: Main.hs
-    source-dirs: test
+    source-dirs: app-agdacore
+    dependencies:
+    - mini-tt
+  parse:
+    main: Main.hs
+    source-dirs: app-parse
     dependencies:
     - mini-tt

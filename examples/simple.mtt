@@ -1,0 +1,3 @@
+let Bool : U = Sum (true 1 | false 1) ;
+let b : Bool = $ true 0 ;
+0
