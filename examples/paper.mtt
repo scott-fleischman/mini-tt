@@ -1,0 +1,57 @@
+-- Examples from the Mini-TT paper (section 6.3)
+
+let id : Pi A : U . A -> A = \A . \x . x ;
+
+let Bool : U = Sum (true 1 | false 1) ;
+let valueTrue : Bool = $ true 0 ;
+let valueFalse : Bool = $ false 0 ;
+
+{-
+-- error: agdacore: eqNf: TC#0 ($ true TC#3)=/=TC#0 ($ true 0)
+let elimBool
+  :  Pi C : Bool -> U
+  .  C ($ false 0)
+  -> C ($ true 0)
+  -> Pi b : Bool
+  .  C b
+  = \C . \h0 . \h1 . fun (true -> \_ . h1 | false -> \_ . h0)
+  ;
+-}
+
+letrec Nat : U = Sum (zero 1 | succ Nat) ;
+letrec List
+  : U -> U
+  = \A . Sum (nil 1 | cons (Sig _ : A . List A))
+  ;
+
+{-
+-- error: agdacore: eqNf: TC#1 ($ zero TC#4)=/=TC#1 ($ zero 0)
+letrec natrec
+  :  Pi C : Nat -> U
+  .  C ($ zero 0)
+  -> (Pi n : Nat . C n -> C ($ succ n))
+  -> Pi n : Nat . C n
+  = \C . \a . \g . fun (zero -> \_ . a | succ -> \n1 . g n1 (natrec C a g n1))
+  ;
+-}
+
+letrec add
+  : Nat -> Nat -> Nat
+  = \x . fun (zero -> \_ . x | succ -> \y . $ succ (add x y))
+  ;
+
+letrec eqNat
+  : Nat -> Nat -> Bool
+  = fun
+    ( zero -> \_ . fun (zero -> \_ . $ true 0  | succ -> \y . $ false 0)
+    | succ -> \x . fun (zero -> \_ . $ false 0 | succ -> \y . eqNat x y)
+    ) ;
+
+-- inductive-recusive example
+letrec (V, T)
+  : Sig X : U . X -> U
+  = ( Sum (nat 1 | pi (Sig x : V . T x -> V))
+    , fun (nat -> \_ . Nat | pi -> \(x, f) . Pi y : T x . T (f y))
+    ) ;
+
+0
