@@ -26,5 +26,5 @@ install:
 - stack --no-terminal --install-ghc build --only-dependencies
 
 script:
-# Build the package, its tests, and its docs and run the tests
-- stack --no-terminal build
+# Build the package and run on an example
+- stack --no-terminal build --exec "agdacore examples/paper.mtt"
