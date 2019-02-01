@@ -1,0 +1,23 @@
+name: mini-tt
+version: 1.0.0
+
+dependencies:
+- array
+- base
+- mtl
+
+library:
+  source-dirs: src
+
+executable:
+  main: Main.hs
+  source-dirs: app
+  dependencies:
+  - mini-tt
+
+tests:
+  test:
+    main: Main.hs
+    source-dirs: test
+    dependencies:
+    - mini-tt

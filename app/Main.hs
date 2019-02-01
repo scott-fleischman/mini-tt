@@ -56,7 +56,7 @@ data Branch =
 -- Main module
 -----------------------------------------
 
-{-# OPTIONS_GHC -fglasgow-exts -Wall #-}
+{-# OPTIONS_GHC -Wall #-}
 
 module Main where
 
@@ -66,10 +66,10 @@ import Control.Monad.State
 import System.Environment
 import System.IO.Unsafe
 
-import Core.Abs
-import Core.Print
+import Core.AbsCore
+import Core.PrintCore
 import Core.ErrM
-import Core.Par
+import Core.ParCore
 
 -----------------------------------------------------------
 -- Values
