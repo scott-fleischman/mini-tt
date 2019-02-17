@@ -19,10 +19,27 @@ let elimBool
 -}
 
 letrec Nat : U = Sum (zero 1 | succ Nat) ;
+
+let valueZero : Nat = $ zero 0 ;
+let valueOne : Nat = $ succ valueZero ;
+let valueOneB : Nat = $ succ ($ zero 0) ;
+let valueTwo : Nat = $ succ valueOne ;
+
 letrec List
   : U -> U
   = \A . Sum (nil 1 | cons (Sig _ : A . List A))
   ;
+
+let valuePair : Sig _ : Nat . List Nat = (valueZero , ($ nil 0)) ;
+-- let valuePairB : Nat * List Nat = (valueZero , ($ nil 0)) ;
+
+let valueListNatEmpty : List Nat = $ nil 0 ;
+let valueListNatSingle : List Nat = $ cons (valueZero , ($ nil 0)) ;
+let valueListNat012 : List Nat
+  = $ cons (valueZero ,
+  ( $ cons (valueOne ,
+  ( $ cons (valueTwo ,
+  ( $ nil 0 )))))) ;
 
 {-
 -- error: agdacore: eqNf: TC#1 ($ zero TC#4)=/=TC#1 ($ zero 0)
@@ -39,6 +56,12 @@ letrec add
   : Nat -> Nat -> Nat
   = \x . fun (zero -> \_ . x | succ -> \y . $ succ (add x y))
   ;
+
+{-
+add (x : Nat) -> (y : Nat) -> Nat
+add x zero = x
+add x (succ y) = succ (add x y)
+-}
 
 letrec eqNat
   : Nat -> Nat -> Bool
